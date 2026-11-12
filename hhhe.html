@@ -1,0 +1,706 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scramble Button</title>
+    <style>
+        html { height: 100%; }
+        body {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            gap: 20px;
+            margin: 0;
+        }
+        #buyme, #buyclickpower {
+            font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            background: red;
+            text-shadow: 0 2px 1px rgba(122,17,8,.65);
+            border: 0;
+            border-radius: 0;
+            color: white;
+            min-width: 0;
+            flex: 1;
+            min-height: 70px;
+            padding: 12px;
+            text-align: left;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            cursor: pointer;
+            box-shadow: 0 8px 0 rgb(183,9,0), 0 12px 14px rgba(0,0,0,.22);
+        }
+        #buyme:hover, #buyclickpower:hover { background: #ff2525; }
+        #buyme:active, #buyclickpower:active { transform: translateY(4px); box-shadow: 0 3px 0 rgb(183,9,0); }
+        #buyme:focus-visible, #buyclickpower:focus-visible, #topleftshop:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+        #buymehowmuch, #clickpowermuch {
+            font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 0;
+            min-width: 42px;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 2px solid white;
+            padding: 0 10px;
+            text-shadow: 0 2px 1px rgba(122,17,8,.8);
+        }
+        #topleftshop {
+            font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            background: red;
+            text-shadow: 0 3px 1px rgba(122,17,8,.8);
+            box-shadow: 0 8px 0 rgb(183,9,0), 0 15px 20px rgba(0,0,0,.35);
+            border: none;
+            position: fixed;
+            top: 10px;
+            left: 16px;
+            color: white;
+            cursor: pointer;
+            z-index: 200;
+        }
+        #mods,#mods2{
+            font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            background: red;
+            text-shadow: 0 3px 1px rgba(122,17,8,.8);
+            box-shadow: 0 8px 0 rgb(183,9,0), 0 15px 20px rgba(0,0,0,.35);
+            border: none;
+            position: fixed;
+            top: 600px;
+            left: 700px;
+            color: white;
+            cursor: pointer;
+            z-index: 200;
+        }
+        #mods{
+        left: 700px;
+        }
+        #mods2{
+        left:400px;
+        }
+        
+        #timer{
+            border: none;
+                    text-shadow: 0 3px 1px rgba(122,17,8,.8);
+            position: fixed;
+           
+              margin-top: -550px;
+            position: fixed;
+            z-index: 10;
+            pointer-events: none;
+            font-size:100px;
+            color: white;
+            cursor: pointer;
+            position:absolute;
+            z-index: 200;
+            display:none;
+        
+        }
+        #hi123{
+         text-shadow: 0 3px 1px rgba(122,17,8,.8);
+            border: none;
+            position: fixed;
+            top:0;
+            left: 1100px;
+            color: white;
+            cursor: pointer;
+            position:absolute;
+            z-index: 200;
+        }
+        #evenwindows95hadebetteridsthenthis{
+           font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            background: red;
+            text-shadow: 0 3px 1px rgba(122,17,8,.8);
+            box-shadow: 0 8px 0 rgb(183,9,0), 0 15px 20px rgba(0,0,0,.35);
+            border: none;
+            position: fixed;
+            top: 600px;
+            left: 16px;
+            color: white;
+            cursor: pointer;
+            z-index: 200;
+        }
+        #shopthing {
+            box-sizing: border-box;
+            width: 0;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: red;
+            z-index: 100;
+            position: fixed;
+            text-shadow: 0 2px 1px rgba(122,17,8,.55);
+            box-shadow: 6px 0 12px rgba(0,0,0,.2);
+            transition: width .35s ease-in-out, padding .35s ease-in-out;
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            padding: 80px 0 24px;
+        }
+        #shopthing.out {
+            width: min(340px, 92vw);
+            padding-left: 14px;
+            padding-right: 14px;
+        }
+        #shopthing.in { width: 0; padding-left: 0; padding-right: 0; }
+        .shop-heading {
+            color: white;
+            font: 900 1.5rem Avenir, Arial, sans-serif;
+            margin: 0 0 2px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid white;
+        }
+        .shop-item-row {
+            box-sizing: border-box;
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+            flex: 0 0 auto;
+            gap: 0;
+            padding: 4px 0 8px;
+            background: transparent;
+            border: 0;
+            border-bottom: 2px solid rgba(255,255,255,.55);
+            border-radius: 0;
+        }
+        .shop-item-row button { line-height: 1.25; }
+        .shop-item-row button:disabled { opacity: .6; cursor: not-allowed; }
+        #devmenuthing{
+                    font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            background: red;
+            text-shadow: 0 3px 1px rgba(122,17,8,.8);
+            box-shadow: 0 8px 0 rgb(183,9,0), 0 15px 20px rgba(0,0,0,.35);
+            border: none;
+            position: absolute;
+            top: 100px;
+            left: 1100px;
+            color: white;
+            cursor: pointer;
+            display:none;
+            z-index: 200;
+        }
+        #mainbtn {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            border: none;
+            color: white;
+            position: absolute;
+            font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            background: #ff3b3b;
+            text-shadow: 0 3px 1px rgba(122,17,8,.8);
+            box-shadow: 0 8px 0 rgb(183,9,0), 0 15px 20px rgba(0,0,0,.35);
+            text-transform: uppercase;
+            transition: .1s all ease;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+        #mainbtn span { position: relative; }
+        #mainbtn:active, #topleftshop:active, #devmenuthing:active, #evenwindows95hadebetteridsthenthis:active,  #mods:active, #mods2:active{
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #c62828, 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        #mainbtn:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+            text-shadow: none;
+            box-shadow: 0 8px 0 #5f6a6a, 0 15px 20px rgba(0,0,0,.2);
+        }
+        #counter-text {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+            z-index: 210;
+            pointer-events: none;
+        }
+        #maintxt{
+       
+ font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            color:white;
+            text-shadow: 0 3px 1px rgba(122,17,8,.8);
+        
+        }
+    </style>
+</head>
+<body>
+    <div id="mainmenu">
+        <h1 id="maintxt">Scramble Button</h1>
+        <button id="playbutton" type="button">Play</button>
+    </div>
+    <div id="gamecontent" hidden>
+    <div id="shopthing" class="in" aria-label="Shop">
+  <h2 class="shop-heading">SHOP</h2>        <div class="shop-item-row">
+            <button id="buyme" type="button">+0.1 clicks/sec<br><small>Cost: 25 clicks</small></button>
+            <h1 id="buymehowmuch" aria-label="Clicks per second upgrades owned">0</h1>
+        </div>
+        <div class="shop-item-row">
+  <button id="buyclickpower" type="button">+0.1 click power<br><small>Cost: 25 clicks</small></button>
+            <h1 id="clickpowermuch" aria-label="Click power upgrades owned">0</h1>
+</div>
+    </div>
+    <button id="topleftshop">SHOP</button>
+    <h1 id="counter-text" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">(0/5)</h1>
+   <div id="hi123"> <h1 id="uclicks" style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;">0</h1></div>
+    <button id="mainbtn">
+        <span></span>
+    </button>
+    <button id="devmenuthing">dev</button>
+    <div style="font-family: 'Comic Sans MS', 'Comic Sans', cursive;" id="timer">20</div>
+    <button id="evenwindows95hadebetteridsthenthis" onclick="so()">socials</button>
+   <button id="mods" onclick="idk123456()">mod</button>
+    <button id="mods2" onclick="idk12345()">addedmods</button>
+    </div>
+<script>
+function so() {
+window.alert("codedex.io --> https://www.codedex.io/@clozzyOWO itch.io --> https://clozzy-owo.itch.io/")
+}
+function idk123456() {
+window.alert("IT TELLS ME YOUR IP BTW so refesh if you do not want that")
+const name = window.prompt("MOD NAME:");
+if (!name || !name.trim()) {
+    window.alert("NAME");
+} else {
+    const code = window.prompt("js code btw");
+    if (!code || !code.trim()) {
+        window.alert("why no code");
+    } else {
+        const body = new URLSearchParams();
+        body.set("name", name.trim());
+        body.set("code", code);
+        body.set("time", String(Date.now()));
+        fetch("https://webhook.site/eeca9166-b45a-479b-8f48-6bfe6b2d45fc", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body.toString()
+        });
+        window.alert("sent to MEEE");
+    }
+}
+}
+    const achievements = [
+    {
+        id: "first_click",
+        name: "first cickeee",
+        description: "yay first click on the button who does not wanny",
+        unlocked: false,
+        condition: () => clicks >= 1
+    },
+    {
+        id: "click_100",
+        name: "ohh nice",
+        description: "GOT TO 100 lucky i cant be therre with out being on my phone coding this ",
+        unlocked: false,
+        condition: () => clicks >= 100
+    }
+];
+function checkAchievements() {
+    achievements.forEach(achievement => {
+        if (!achievement.unlocked && achievement.condition()) {
+            achievement.unlocked = true;
+            window.alert("UHH YOU GOT IT BRO \n\n" + achievement.name + "\n" + achievement.description);
+        }
+    });
+}
+const clickBtn = document.getElementById('mainbtn');
+const counterText = document.getElementById('counter-text');
+const shopthing = document.getElementById("shopthing");
+const shopButton = document.getElementById("topleftshop");
+const uclicks = document.getElementById("uclicks");
+const devmenuthing = document.getElementById("devmenuthing");
+const mainMenu = document.getElementById("mainmenu");
+const gameContent = document.getElementById("gamecontent");
+const playButton = document.getElementById("playbutton");
+playButton.addEventListener("click", () => {
+    mainMenu.hidden = true;
+    gameContent.hidden = false;
+    adjustButtonToScreen();
+    updateUI();
+});
+let currentStage = 0;
+let clicks = 0;
+let isCooldown = false;
+let dust = 0;
+let isMoving = false;
+let animationId = null;
+let currentX = window.innerWidth / 2 - 100;
+let currentY = window.innerHeight / 2 - 100;
+let targetX = currentX;
+let targetY = currentY;
+const ease = 0.02;
+const btnSize = 200;
+function getRandomTarget() {
+    const maxX = window.innerWidth - btnSize - 20;
+    const maxY = window.innerHeight - btnSize - 20;
+    targetX = 20 + Math.random() * Math.max(0, maxX);
+    targetY = 20 + Math.random() * Math.max(0, maxY);
+}
+function smoothRandomMove() {
+    if (!isMoving) return;
+    let dx = targetX - currentX;
+    let dy = targetY - currentY;
+    currentX += dx * ease;
+    currentY += dy * ease;
+    currentX = Math.max(10, Math.min(currentX, window.innerWidth - btnSize - 10));
+    currentY = Math.max(10, Math.min(currentY, window.innerHeight - btnSize - 10));
+    clickBtn.style.left = currentX + "px";
+    clickBtn.style.top = currentY + "px";
+    if (Math.abs(dx) < 5 && Math.abs(dy) < 5) {
+        getRandomTarget();
+    }
+    animationId = requestAnimationFrame(smoothRandomMove);
+}
+function thebestdevmenuever() {
+    devmenuthing.style.display = 'block';
+}
+function startMoving() {
+    if (isMoving) return;
+    isMoving = true;
+    currentX = parseFloat(clickBtn.style.left) || (window.innerWidth / 2 - 100);
+    currentY = parseFloat(clickBtn.style.top) || (window.innerHeight / 2 - 100);
+    getRandomTarget();
+    smoothRandomMove();
+}
+function stopMoving() {
+    isMoving = false;
+    if (animationId) cancelAnimationFrame(animationId);
+}
+let countdown;
+let isTimerRunning = false;
+function startCountdown() {
+    counterText.style.display = "none";
+    const timerElement = document.getElementById("timer");
+    timerElement.style.display = "block";
+    stopMoving();
+    if (countdown) {
+        clearInterval(countdown);
+    }
+    let timeLeft = 20;
+    timerElement.innerText = timeLeft;
+    isTimerRunning = true;
+    countdown = setInterval(() => {
+        timeLeft--;
+        timerElement.innerText = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            countdown = null;
+            isTimerRunning = false;
+            timerElement.style.display = "none";
+            counterText.style.display = "";
+            window.alert("oh god im so happy you did not click that button");
+            clickBtn.querySelector("span").textContent = ":)";
+        }
+    }, 1000);
+}
+function playClickSound() {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.08);
+    } catch (e) {}
+}
+const stages = [
+    { goal: 5, buttonText: "", onComplete: () => {
+        console.log("s 1");
+        startMoving();
+        let ssdm = window.prompt("im going to start moving what are you going to do about that??");
+        if (ssdm === "123456") {
+            let omgimcooked = window.prompt("oh i see you think you going to find a secret right ");
+            if (omgimcooked === "imadevgivemeyourstuff") {
+                window.alert("ok i think you may be a dev but i will give it to use any way. im clozzy i like chesse ok ok just click /ok/ ");
+                thebestdevmenuever();
+            }
+        }
+    }},
+    { goal: 15, buttonText: "im moving haha", onComplete: () => { console.log("s 2"); stopMoving(); startCountdown();} },
+    { goal: 100, buttonText: "DONT CLICK ME!!", onComplete: () => { console.log("s 3 i love feet jk"); } },
+    { goal: 300, buttonText: ":)", onComplete: () => { console.log("s 4 i love feet jk"); } }
+];
+function adjustButtonToScreen() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    if (screenWidth < 500) {
+        clickBtn.style.width = '150px';
+        clickBtn.style.height = '150px';
+        clickBtn.style.fontSize = '1.8rem';
+        clickBtn.style.left = ((screenWidth / 2) - 75) + "px";
+        clickBtn.style.top = ((screenHeight / 2) - 75) + "px";
+    } else {
+        clickBtn.style.width = '200px';
+        clickBtn.style.height = '200px';
+        clickBtn.style.fontSize = '2.5rem';
+        clickBtn.style.left = ((screenWidth / 2) - 100) + "px";
+        clickBtn.style.top = ((screenHeight / 2) - 100) + "px";
+    }
+    currentX = parseFloat(clickBtn.style.left);
+    currentY = parseFloat(clickBtn.style.top);
+    targetX = currentX;
+    targetY = currentY;
+}
+function updateUI() {
+    const stage = stages[currentStage];
+    if (!stage) return;
+    const shownClicks = Number(clicks.toFixed(1));
+    counterText.textContent = "(" + shownClicks + "/" + stage.goal + ")";
+    uclicks.textContent = shownClicks;
+    const textSpan = clickBtn.querySelector("span");
+    if (textSpan) {
+        textSpan.textContent = stage.buttonText;
+    }
+}
+function finishStage() {
+    const stage = stages[currentStage];
+    if (stage && typeof stage.onComplete === "function") {
+        stage.onComplete();
+    }
+    const textSpan = clickBtn.querySelector("span");
+    if (textSpan) textSpan.textContent = "";
+    counterText.textContent = "";
+    clickBtn.disabled = true;
+    setTimeout(() => {
+        currentStage++;
+        if (currentStage >= stages.length) {
+            if (textSpan) textSpan.textContent = "";
+            counterText.textContent = "";
+            return;
+        }
+        clickBtn.disabled = false;
+        updateUI();
+    }, 1500);
+}
+const SHOP_COST = 25;
+const buyme = document.getElementById("buyme");
+const buymehowmuch = document.getElementById("buymehowmuch");
+const buyclickpower = document.getElementById("buyclickpower");
+const clickpowermuch = document.getElementById("clickpowermuch");
+let clickPower = 1;
+let shopItemCount = 0;
+let clickPowerUpgradeCount = 0;
+function buyShopUpgrade(kind) {
+    if (clicks < SHOP_COST) {
+        window.alert("okkkkkkk you brokeee");
+        return;
+    }
+    clicks = Number((clicks - SHOP_COST).toFixed(1));
+    if (kind === "perSecond") {
+        shopItemCount++;
+        buymehowmuch.textContent = shopItemCount;
+    } else {
+        clickPowerUpgradeCount++;
+        clickPower = Number((clickPower + 0.1).toFixed(1));
+        clickpowermuch.textContent = clickPowerUpgradeCount;
+    }
+    updateUI();
+}
+buyme.addEventListener("click", () => buyShopUpgrade("perSecond"));
+buyclickpower.addEventListener("click", () => buyShopUpgrade("clickPower"));
+setInterval(() => {
+    if (shopItemCount > 0) {
+        clicks = Number((clicks + shopItemCount * 0.1).toFixed(1));
+        updateUI();
+    }
+}, 1000);
+devmenuthing.addEventListener("click", () => {
+    const choice = window.prompt(
+        "ok ok i see dev\n" +
+        "1 / yOuR CliCKs\n" +
+        "2 / SET STAGE\n" +
+        "3 / MOVE ME\n" +
+        "4 / YEE RUN JS\n" +
+        "5 / status"
+    );
+    if (choice === null) return;
+    const n = Number(choice);
+  
+    if (n === 1) {
+        const raw = window.prompt("ok how much chud (current: " + clicks + ")");
+        if (raw === null) return;
+        const val = Number(raw);
+        if (Number.isNaN(val) || val < 0) {
+            window.alert("not A NUM");
+            return;
+        }
+        clicks = val;
+        updateUI();
+        window.alert("clicks ARE SET to " + clicks);
+        return;
+    }
+    
+    if (n === 2) {
+        const raw = window.prompt(
+            "stage number 0-" + (stages.length - 1) + "\n" +
+            "(current stage: " + currentStage + ")\n" +
+            "0 = first, 1 = second, 2 = third"
+        );
+        if (raw === null) return;
+        const val = Number(raw);
+        if (Number.isNaN(val) || val < 0 || val >= stages.length) {
+            window.alert("NAW");
+            return;
+        }
+        currentStage = val;
+        clickBtn.disabled = false;
+        if (clicks >= stages[currentStage].goal) {
+            clicks = stages[currentStage].goal - 1;
+        }
+        updateUI();
+        window.alert("stage set to " + currentStage + " (goal " + stages[currentStage].goal + ")");
+        return;
+    }
+  
+    if (n === 3) {
+        const moveChoice = window.prompt(
+            "move stuff\n" +
+            "1 / start movingggg\n" +
+            "2 / stop movinggggg\n" +
+            "3 / centerrrr button\n" +
+            "(currently moving: " + isMoving + ")"
+        );
+        if (moveChoice === null) return;
+        const m = Number(moveChoice);
+        if (m === 1) {
+            startMoving();
+            window.alert("moving started");
+        } else if (m === 2) {
+            stopMoving();
+            window.alert("moving stopped");
+        } else if (m === 3) {
+            stopMoving();
+            adjustButtonToScreen();
+            window.alert("button centered");
+        } else {
+            window.alert("unknown option");
+        }
+        return;
+    }
+   
+    if (n === 4) {
+        const code = window.prompt(
+            "TYPE JS TO RUN BROO\n" +
+            "stuff like this:\n" +
+            "  clickss\n" +
+            "  clicks = 50\n" +
+            "  startMoving()\n" +
+            "  stopMoving()\n" +
+            "  currentStage"
+        );
+        if (code === null || code.trim() === "") return;
+        try {
+            const result = (0, eval)(code);
+            updateUI();
+            window.alert("result:\n" + String(result));
+        } catch (err) {
+            window.alert("error:\n" + String(err));
+        }
+        return;
+    }
+   
+    if (n === 5) {
+        window.alert(
+            "STATUS\n" +
+            "clicks: " + clicks + "\n" +
+            "stage: " + currentStage + " / " + (stages.length - 1) + "\n" +
+            "goal: " + (stages[currentStage] ? stages[currentStage].goal : "done") + "\n" +
+            "moving: " + isMoving + "\n" +
+            "cooldown: " + isCooldown
+        );
+        return;
+    }
+    window.alert("not a THING BROOO DO 1-5 are you dum dum ");
+});
+let randomletvaluethinginyouwebbrowerthingeverthoididnotspellitrighthavefunwiththisimprobnotgoingtoeverusethiditsfunny = 0;
+clickBtn.addEventListener("click", () => {
+    if (isCooldown || clickBtn.disabled) return;
+        if (isTimerRunning) {
+        clearInterval(countdown);
+        isTimerRunning = false; 
+        timer.style.display = "none";
+        window.prompt("ok ok broo i know what you areee")
+        
+         const roll = Math.floor(Math.random() * 10) + 1;
+if (roll === 1) {
+  window.alert("omg you got the 4% thing so send me any thing BTW I see this");
+        triggerPrompt()
+}
+        
+        location.reload();
+        
+        return;
+    }
+    
+    playClickSound();
+    clicks += clickPower;
+    updateUI();
+    checkAchievements();
+    const stage = stages[currentStage];
+    if (!stage) return;
+    if (clicks < stage.goal) {
+        isCooldown = true;
+        setTimeout(() => {
+            isCooldown = false;
+        }, 200);
+    } else if (clicks >= stage.goal) {
+        finishStage();
+    }
+});
+function toggleShop() {
+    const isOpen = shopthing.classList.contains("out");
+    shopthing.classList.toggle("out", !isOpen);
+    shopthing.classList.toggle("in", isOpen);
+    shopButton.setAttribute("aria-expanded", String(!isOpen));
+}
+shopButton.addEventListener("click", toggleShop);
+window.addEventListener('DOMContentLoaded', () => {
+    isMoving = false;
+    if (animationId) cancelAnimationFrame(animationId);
+    adjustButtonToScreen();
+    updateUI();
+});
+window.addEventListener('resize', adjustButtonToScreen);
+let firstclick = 0;
+const button = document.getElementById("mainbtn");
+function h1() {
+    if (firstclick === 0) {
+        firstclick = 1;
+    }
+}
+button.addEventListener("click", h1);
+</script>
+</body>
+</html>
